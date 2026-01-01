@@ -22,6 +22,13 @@
       "when": 1767305001391,
       "tag": "0002_stale_ser_duncan",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767306934101,
+      "tag": "0003_cold_lady_deathstrike",
+      "breakpoints": true
     }
   ]
 }

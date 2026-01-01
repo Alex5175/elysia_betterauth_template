@@ -1,24 +1,39 @@
 import { Elysia } from "elysia";
 import z from "zod";
 import { openapi } from "@elysiajs/openapi";
+import { auth } from "./auth";
+import { betterAuthPlugin, OpenAPI } from "./http/plugins/betterAuthPlugin";
 
 const app = new Elysia()
-  .use(openapi())
+  .use(betterAuthPlugin)
+  .use(
+    openapi({
+      documentation: {
+        components: await OpenAPI.components,
+        paths: await OpenAPI.getPaths(),
+      },
+    })
+  )
   .get("/", () => "Hello Elysia")
-  .get("/test/:id", ({ params: { id } }) => ({ message: "" + id }), {
-    params: z.object({
-      id: z.string(),
-    }),
-    detail: {
-      summary: "Test is a test Route",
-      tags: ["test"],
-    },
-    response: {
-      200: z.object({
-        message: z.string(),
+  .get(
+    "/test/:id",
+    ({ params: { id }, user }) => ({ message: "Hallo " + user.name }),
+    {
+      params: z.object({
+        id: z.string(),
       }),
-    },
-  })
+      detail: {
+        summary: "Test is a test Route",
+        tags: ["test"],
+      },
+      auth: true,
+      response: {
+        200: z.object({
+          message: z.string(),
+        }),
+      },
+    }
+  )
   .listen(3000);
 
 console.log(
