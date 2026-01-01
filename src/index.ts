@@ -3,6 +3,12 @@ import z from "zod";
 import { openapi } from "@elysiajs/openapi";
 import { auth } from "./auth";
 import { betterAuthPlugin, OpenAPI } from "./http/plugins/betterAuthPlugin";
+import { users } from "./database/schema/users";
+import { createInsertSchema } from "drizzle-typebox";
+
+//
+
+const userInsertSchema = createInsertSchema(users);
 
 const app = new Elysia()
   .use(betterAuthPlugin)
@@ -14,7 +20,11 @@ const app = new Elysia()
       },
     })
   )
-  .get("/", () => "Hello Elysia")
+
+  // .post("sign-up/email", () => "Hello World", {
+  //   body: userInsertSchema,
+  // })
+  .get("/", () => "Hello Elysia", {})
   .get(
     "/test/:id",
     ({ params: { id }, user }) => ({ message: "Hallo " + user.name }),
