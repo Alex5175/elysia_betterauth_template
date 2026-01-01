@@ -13,4 +13,5 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at")
     .$onUpdate(() => new Date())
     .notNull(),
+  address: text("address").notNull(),
 });

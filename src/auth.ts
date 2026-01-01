@@ -2,7 +2,6 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI } from "better-auth/plugins";
 import { db } from "./database/client";
-import { password } from "bun";
 
 export const auth = betterAuth({
   basePath: "/auth",
@@ -10,6 +9,15 @@ export const auth = betterAuth({
     provider: "pg",
     usePlural: true,
   }),
+
+  user: {
+    additionalFields: {
+      address: {
+        type: "string",
+        required: true,
+      },
+    },
+  },
 
   emailAndPassword: {
     enabled: true,
