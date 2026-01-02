@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { openAPI, admin } from "better-auth/plugins";
-import { db } from "./database/client";
+import { db } from "./database/db";
 import { randomUUIDv7 } from "bun";
 
 export const auth = betterAuth({
