@@ -57,5 +57,5 @@ export const auth = betterAuth({
   // env: "production",
   plugins: [openAPI(), admin()],
 
-  trustedOrigins: ["http://localhost:8080"],
+  trustedOrigins: [Bun.env.CLIENT_URL!],
 });

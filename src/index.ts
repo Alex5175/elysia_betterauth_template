@@ -3,12 +3,8 @@ import z from "zod";
 import { openapi } from "@elysiajs/openapi";
 import { auth } from "./auth";
 import { betterAuthPlugin, OpenAPI } from "./http/plugins/betterAuthPlugin";
-import { users } from "./database/schema/auth-schema";
-import { createInsertSchema } from "drizzle-typebox";
 
 //
-
-const userInsertSchema = createInsertSchema(users);
 
 const app = new Elysia()
   .use(betterAuthPlugin)
@@ -25,25 +21,18 @@ const app = new Elysia()
   //   body: userInsertSchema,
   // })
   .get("/", () => "Hello Elysia", {})
-  .get(
-    "/test/:id",
-    ({ params: { id }, user }) => ({ message: "Hallo " + user.name }),
-    {
-      params: z.object({
-        id: z.string(),
+  .get("/test/", ({ user }) => ({ message: "Hallo " + user.name }), {
+    detail: {
+      summary: "Test is a test Route",
+      tags: ["test"],
+    },
+    auth: true,
+    response: {
+      200: z.object({
+        message: z.string(),
       }),
-      detail: {
-        summary: "Test is a test Route",
-        tags: ["test"],
-      },
-      auth: true,
-      response: {
-        200: z.object({
-          message: z.string(),
-        }),
-      },
-    }
-  )
+    },
+  })
   .listen(3000);
 
 console.log(
