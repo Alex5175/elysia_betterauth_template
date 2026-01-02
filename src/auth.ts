@@ -1,7 +1,8 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { openAPI } from "better-auth/plugins";
+import { openAPI, admin } from "better-auth/plugins";
 import { db } from "./database/client";
+import { randomUUIDv7 } from "bun";
 
 export const auth = betterAuth({
   basePath: "/auth",
@@ -41,9 +42,20 @@ export const auth = betterAuth({
 
   advanced: {
     database: {
-      generateId: false,
+      generateId: () => randomUUIDv7(),
     },
   },
 
-  plugins: [openAPI()],
+  rateLimit: {
+    window: 60 * 1,
+    max: 100,
+    enabled: true,
+    storage: "database",
+    modelName: "rateLimit",
+  },
+
+  // env: "production",
+  plugins: [openAPI(), admin()],
+
+  trustedOrigins: ["http://localhost:8080"],
 });

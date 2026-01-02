@@ -3,7 +3,7 @@ import z from "zod";
 import { openapi } from "@elysiajs/openapi";
 import { auth } from "./auth";
 import { betterAuthPlugin, OpenAPI } from "./http/plugins/betterAuthPlugin";
-import { users } from "./database/schema/users";
+import { users } from "./database/schema/auth-schema";
 import { createInsertSchema } from "drizzle-typebox";
 
 //

@@ -6,7 +6,8 @@
     "dev": "bun run --watch src/index.ts",
     "db:generate": "bun --env-file .env --bun drizzle-kit generate",
     "db:migrate": "bun --env-file .env --bun drizzle-kit migrate",
-    "db:studio": "bun --env-file .env --bun drizzle-kit studio"
+    "db:studio": "bun --env-file .env --bun drizzle-kit studio",
+    "auth:generate" : "bunx --bun @better-auth/cli generate --output './src/database/schema/auth-schema.ts' --yes"
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.4.13",
